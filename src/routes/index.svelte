@@ -10,7 +10,7 @@
 	<title>Home</title>
 </svelte:head>
 
-<section>
+<section> 
 	<h1>
 		<div class="welcome">
 			<picture>
