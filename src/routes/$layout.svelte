@@ -1,5 +1,6 @@
 <script>
 	import Nav from '$lib/Nav.svelte';
+	import Footer from '$lib/Footer.svelte';
 	import '../app.postcss';
 </script>
 
@@ -8,10 +9,7 @@
 <main>
 	<slot />
 </main>
-
-<footer>
-	<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-</footer>
+<Footer />
 
 <style>
 	main {
