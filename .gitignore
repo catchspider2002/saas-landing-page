@@ -1,1 +1,3 @@
 node_modules
+/.svelte
+/.vercel_build_output
