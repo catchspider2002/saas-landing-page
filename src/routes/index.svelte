@@ -2,24 +2,15 @@
 	export const prerender = true;
 </script>
 
+<script>
+	import Hero from '$lib/Hero.svelte';
+</script>
+
 <svelte:head>
 	<title>Home</title>
 </svelte:head>
 
-<section>
-	<h1>Svelte Kit</h1>
-</section>
+<Hero />
 
 <style style lang="postcss">
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-	}
-
-	h1 {
-		width: 100%;
-	}
 </style>
