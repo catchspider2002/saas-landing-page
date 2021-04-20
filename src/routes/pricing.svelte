@@ -1,23 +1,52 @@
 <script>
-	let noIcon =
-		'<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" class="w-5 h-5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>';
-	let yesIcon =
-		'<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>';
+	import Constants from '$lib/_constants.js';
+	let strings = Constants.strings;
+
+	let page = 'pricing';
+	let { title, url, keywords, desc, image } = Constants.pageDetails(page);
+
+	let noIcon = Constants.icons.noIcon;
+	let yesIcon = Constants.icons.yesIcon;
 </script>
 
-<section class="body-text body-bg body-font overflow-hidden">
-	<div class="flex flex-col text-center w-full mb-20">
-		<h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 highlight-color">Pricing</h1>
-		<p class="lg:w-2/3 mx-auto leading-relaxed text-base">
-			Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical.
-		</p>
-		<div class="flex mx-auto border-2 border-accent rounded overflow-hidden mt-6">
-			<button class="py-1 px-4 button-accent focus:outline-none">Monthly</button>
-			<button class="py-1 px-4 focus:outline-none">Annually</button>
-		</div>
-	</div>
+<svelte:head>
+	<title>{title}</title>
+	<link rel="canonical" href={url} />
+	{#if Constants.strings.versions}
+		{#each Constants.strings.versions as version}
+			<link rel="alternate" href={version.website} hreflang={version.lang} />
+		{/each}
+	{/if}
+	<meta name="description" content={desc} />
+	<meta name="keywords" content={keywords} />
 
+	<!-- Open Graph / Facebook -->
+	<meta property="og:url" content={url} />
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content={desc} />
+	<meta property="og:image" content={image} />
+
+	<!-- Twitter -->
+	<meta name="twitter:url" content={url} />
+	<meta name="twitter:title" content={title} />
+	<meta name="twitter:description" content={desc} />
+	<meta name="twitter:image" content={image} />
+	<meta name="twitter:image:src" content={image} />
+	<meta name="twitter:image:alt" content={title} />
+</svelte:head>
+
+<section class="body-text body-bg body-font overflow-hidden">
 	<div class="container px-5 py-24 mx-auto flex flex-wrap">
+		<div class="flex flex-col text-center w-full mb-20">
+			<h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 highlight-color">Pricing</h1>
+			<p class="lg:w-2/3 mx-auto leading-relaxed text-base">
+				Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical.
+			</p>
+			<div class="flex mx-auto border-2 border-accent rounded overflow-hidden mt-6">
+				<button class="py-1 px-4 button-accent focus:outline-none">Monthly</button>
+				<button class="py-1 px-4 focus:outline-none">Annually</button>
+			</div>
+		</div>
 		<div class="md:w-1/3 mt-48 hidden md:block">
 			<div
 				class="mt-px border-t border-color border-b border-l rounded-tl-lg rounded-bl-lg overflow-hidden"
@@ -100,17 +129,7 @@
 					<button
 						class="grid grid-flow-col grid-cols-1 items-center mt-auto border-0 py-2 px-4 w-full focus:outline-none rounded"
 						><span class="justify-self-start">Button</span>
-						<svg
-							fill="none"
-							stroke="currentColor"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							class="w-4 h-4 ml-auto"
-							viewBox="0 0 24 24"
-						>
-							<path d="M5 12h14M12 5l7 7-7 7" />
-						</svg>
+						{@html Constants.icons.rightArrowIcon}
 					</button>
 					<p class="text-xs gray-text mt-3">
 						Literally you probably haven't heard of them jean shorts.
@@ -177,17 +196,7 @@
 					<button
 						class="button-accent grid grid-flow-col grid-cols-1 items-center mt-auto border-0 py-2 px-4 w-full focus:outline-none rounded"
 						><span class="justify-self-start">Button</span>
-						<svg
-							fill="none"
-							stroke="currentColor"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							class="w-4 h-4 ml-auto"
-							viewBox="0 0 24 24"
-						>
-							<path d="M5 12h14M12 5l7 7-7 7" />
-						</svg>
+						{@html Constants.icons.rightArrowIcon}
 					</button>
 					<p class="text-xs gray-text mt-3">
 						Literally you probably haven't heard of them jean shorts.
