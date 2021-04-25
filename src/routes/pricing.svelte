@@ -126,11 +126,18 @@
 					{@html noIcon}
 				</p>
 				<div class="border-t border-color p-6 text-center rounded-bl-lg">
-					<button
+					<a
+						href={strings.appPage + '/signup?plan=starter'}
 						class="grid grid-flow-col grid-cols-1 items-center mt-auto border-0 py-2 px-4 w-full focus:outline-none rounded"
-						><span class="justify-self-start">Button</span>
-						{@html Constants.icons.rightArrowIcon}
-					</button>
+						><span class="justify-self-start">Starter</span>
+						{@html Constants.icons.rightArrowIcon}</a
+					>
+					<!-- <button
+							on:click={(location.href = 'http://www.example.com')}
+							class="grid grid-flow-col grid-cols-1 items-center mt-auto border-0 py-2 px-4 w-full focus:outline-none rounded"
+							><span class="justify-self-start">Starter</span>
+							{@html Constants.icons.rightArrowIcon}
+						</button> -->
 					<p class="text-xs gray-text mt-3">
 						Literally you probably haven't heard of them jean shorts.
 					</p>
@@ -193,11 +200,17 @@
 					{@html noIcon}
 				</p>
 				<div class="p-6 text-center border-t border-color">
-					<button
+					<a
+						href={strings.appPage + '/signup?plan=pro'}
 						class="button-accent grid grid-flow-col grid-cols-1 items-center mt-auto border-0 py-2 px-4 w-full focus:outline-none rounded"
-						><span class="justify-self-start">Button</span>
+						><span class="justify-self-start">Pro</span>
+						{@html Constants.icons.rightArrowIcon}</a
+					>
+					<!-- <button
+						class="button-accent grid grid-flow-col grid-cols-1 items-center mt-auto border-0 py-2 px-4 w-full focus:outline-none rounded"
+						><span class="justify-self-start">Pro</span>
 						{@html Constants.icons.rightArrowIcon}
-					</button>
+					</button> -->
 					<p class="text-xs gray-text mt-3">
 						Literally you probably haven't heard of them jean shorts.
 					</p>

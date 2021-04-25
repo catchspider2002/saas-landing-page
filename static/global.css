@@ -1,7 +1,6 @@
-
 :root {
     --main-bg-color: #1a202c;
-    --accent-color: #d6ed17; /* Lime */
+    --accent-color: #a8bb0e; /* Lime */
     --secondary-color: #ffc800;
     --accent-text-color: #ffffff;
     --secondary-text-color: #000000;
@@ -21,9 +20,9 @@
   
     --body-bg: var(--gray-100);
     --body-text: var(--gray-900);
-      --alt-text: var(--white);
-      --highlight-text: var(--black);
-      --card-bg: var(--gray-300);
+    --alt-text: var(--white);
+    --highlight-text: var(--black);
+    --card-bg: var(--gray-300);
     --gray-bg: var(--gray-400);
     --gray-text: var(--gray-600);
     --gray-dark: var(--gray-800);
@@ -34,23 +33,25 @@
     --button-hover-text: var(--gray-800);
     --button-bg: var(--gray-300);
     --button-hover-bg: var(--gray-400);
-      --border-color: var(--gray-400);
-      --border-light: var(--gray-200);
-      --border-dark: var(--gray-600);
-      --icon-bg: var(--gray-900);
-      --img-filter: grayscale(0.75) contrast(0.8) opacity(1) brightness(1);
-  /* 	RTL */
+    --border-color: var(--gray-400);
+    --border-light: var(--gray-200);
+    --border-dark: var(--gray-600);
+    --icon-bg: var(--gray-900);
+    --img-filter: grayscale(0.75) contrast(0.8) opacity(1) brightness(1);
+    /* 	RTL */
     --angle: 0deg;
-      --direction: left;
-      --alt-direction: right;
-      --left-border: none none none solid;
+    --direction: left;
+    --alt-direction: right;
+    --left-border: none none none solid;
   }
   [data-theme="dark"] {
+    --accent-color: #d6ed17; /* Lime */
+  
     --card-bg: var(--gray-800);
     --body-bg: var(--gray-900);
     --body-text: var(--gray-100);
-      --alt-text: var(--black);
-      --highlight-text: var(--white);
+    --alt-text: var(--black);
+    --highlight-text: var(--white);
     --gray-bg: var(--gray-600);
     --gray-text: var(--gray-400);
     --gray-dark: var(--gray-200);
@@ -61,53 +62,52 @@
     --button-hover-text: var(--gray-200);
     --button-bg: var(--gray-800);
     --button-hover-bg: var(--gray-700);
-      --border-color: var(--gray-600);
-      --border-light: var(--gray-800);
-      --border-dark: var(--gray-400);
-      --icon-bg: var(--gray-100);
-      --img-filter: grayscale(0.75) contrast(0.8) opacity(0.8) brightness(1);
-      
+    --border-color: var(--gray-600);
+    --border-light: var(--gray-800);
+    --border-dark: var(--gray-400);
+    --icon-bg: var(--gray-100);
+    --img-filter: grayscale(0.75) contrast(0.8) opacity(0.8) brightness(1);
   }
   [dir="rtl"] {
-      --direction: right;
-      --alt-direction: left;
+    --direction: right;
+    --alt-direction: left;
     --angle: 180deg;
-      --left-border: none solid none none;
+    --left-border: none solid none none;
   }
-      
-  .body-bg{
+  
+  .body-bg {
     background-color: var(--body-bg);
   }
-  .body-text{
+  .body-text {
     color: var(--body-text);
   }
-  .alt-text{
+  .alt-text {
     color: var(--alt-text);
   }
-  .highlight-text{
+  .highlight-text {
     color: var(--highlight-text);
   }
-  .accent-bg{
+  .accent-bg {
     background-color: var(--accent-color);
   }
-  .accent-text{
+  .accent-text {
     color: var(--accent-color);
   }
-  .black-text{
+  .black-text {
     color: var(--black);
   }
-  .white-text{
+  .white-text {
     color: var(--white);
   }
-  .gray-text{
+  .gray-text {
     color: var(--gray-text);
   }
-  .card-bg{
+  .card-bg {
     background-color: var(--card-bg);
   }
-      .icon-bg{
-          background-color: var(--icon-bg);
-      }
+  .icon-bg {
+    background-color: var(--icon-bg);
+  }
   .border-color {
     border-color: var(--border-color);
   }
@@ -123,7 +123,7 @@
   .img-filter {
     filter: var(--img-filter);
   }
-      a {
+  a {
     color: var(--link-text);
     text-decoration: none;
   }
@@ -140,3 +140,4 @@
     background-color: var(--button-hover-bg);
     color: var(--button-hover-text);
   }
+  

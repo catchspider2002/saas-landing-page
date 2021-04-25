@@ -1,17 +1,41 @@
 <script>
 	import Constants from './_constants.js';
+	let strings = Constants.strings;
 	import { fly } from 'svelte/transition';
+	import { onMount } from 'svelte';
+	import { themeStore } from '../routes/stores.js';
 	let dark = Constants.icons.dark;
 	let light = Constants.icons.light;
 	let downChevronIcon = Constants.icons.downChevronIcon;
 	// let toggleIcon =Constants.icons.toggleIcon
 	let theme = dark;
+	let defaultNewTheme;
+	
+	onMount(async () => {
+		defaultNewTheme = localStorage.getItem('defaultNewTheme');
+
+		if (!defaultNewTheme) {
+			defaultNewTheme = 'dark';
+			localStorage.setItem('defaultNewTheme', defaultNewTheme);
+		}
+		document.documentElement.setAttribute('data-theme', defaultNewTheme);
+		themeStore.set(defaultNewTheme);
+		// userAction();
+	});
 
 	function changeTheme() {
-		theme = theme === dark ? light : dark;
-	}
-	function id(text) {
-		return document.getElementById(text);
+		// theme = theme === dark ? light : dark;
+		console.log('changeTheme: ' + defaultNewTheme);
+		if (defaultNewTheme === 'dark') {
+			theme = light;
+			defaultNewTheme = 'light';
+		} else {
+			theme = dark;
+			defaultNewTheme = 'dark';
+		}
+		localStorage.setItem('defaultNewTheme', defaultNewTheme);
+		document.documentElement.setAttribute('data-theme', defaultNewTheme);
+		themeStore.set(defaultNewTheme);
 	}
 </script>
 
@@ -39,7 +63,10 @@
 	</ul>
 
 	<!-- <a aria-current={segment === "signin" ? "page" : undefined} href="signin"><span>Sign In</span></a> -->
-	<a sveltekit:prefetch href="signin"><span>Sign In</span></a>
+	<!-- <a sveltekit:prefetch href={strings.appPage + '/signup?plan=pro'}><span>Sign In</span></a> -->
+
+	<a href={strings.appPage + '/signup'}><span>Sign Up</span></a>
+	<a href={strings.appPage + '/login'}><span>Log In</span></a>
 	<a href="#a" on:click={() => changeTheme()}>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -56,9 +83,7 @@
 			{/if}
 		</svg>
 	</a>
-	<label for="drop" onclick="toggleMenu()" class="toggle burger"
-		>{@html Constants.icons.toggleIcon}</label
-	>
+	<label for="drop" class="toggle burger">{@html Constants.icons.toggleIcon}</label>
 </nav>
 
 <style>
