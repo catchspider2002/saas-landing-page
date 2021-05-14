@@ -1,11 +1,15 @@
-const sveltePreprocess = require('svelte-preprocess');
+// const sveltePreprocess = require('svelte-preprocess');
 // const node = require('@sveltejs/adapter-node');
 // const static = require('@sveltejs/adapter-static');
-const vercel = require('@sveltejs/adapter-vercel');
-const pkg = require('./package.json');
+// const vercel = require('@sveltejs/adapter-vercel');
+// const pkg = require('./package.json');
+import sveltePreprocess from 'svelte-preprocess';
+
+import vercel from '@sveltejs/adapter-vercel';
 
 /** @type {import('@sveltejs/kit').Config} */
-module.exports = {
+export default {
+	// module.exports = {
 	preprocess: [
 		sveltePreprocess({
 			defaults: {
@@ -25,7 +29,7 @@ module.exports = {
 		adapter: vercel(),
 
 		// hydrate the <div id="svelte"> element in src/app.html
-		target: '#svelte',
+		target: '#svelte'
 
 		// vite: {
 		// 	ssr: {
