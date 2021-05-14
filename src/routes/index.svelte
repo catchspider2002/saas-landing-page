@@ -6,7 +6,7 @@
 	import Hero from '$lib/Hero.svelte';
 	import Constants from '$lib/_constants.js';
 	let strings = Constants.strings;
-	
+
 	let page = 'index';
 	let { title, url, keywords, desc, image } = Constants.pageDetails(page);
 </script>
@@ -38,6 +38,17 @@
 </svelte:head>
 
 <Hero />
+<div>
+	<div class="preview" />
+	<div class="controls" />
+</div>
 
 <style style lang="postcss">
+	.preview {
+		position: sticky;
+		top: 50px;
+		width: 600px;
+		height: 400px;
+		border: 1px solid red;
+	}
 </style>

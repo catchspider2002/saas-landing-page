@@ -68,6 +68,14 @@ const strings = {
 	return { title, url, keywords, desc, image };
   };
   
+  let plans = [
+	{ id: "price_1IjgMmSBA7ypmA8RgT5R4Agt", name: "free", amount: 0, interval: "year" },
+	{ id: "price_1IbT1kSBA7ypmA8RlPiYEjN0", name: "pro", amount: 500, interval: "month" },
+	{ id: "price_1IbT1kSBA7ypmA8RePr0i0U2", name: "pro", amount: 5000, interval: "year" },
+  ];
+  
+  // plans.filter((plan) => plan.amount === 0)[0].id
+  
   let iconHeader = '<svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="';
   let iconFooter = '"/></svg>';
   
@@ -131,5 +139,6 @@ const strings = {
 	pageDetails,
 	icons,
 	localizedDate,
+	plans,
   };
   

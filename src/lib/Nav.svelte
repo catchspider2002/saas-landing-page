@@ -49,6 +49,7 @@
 	<ul>
 		<!-- <li><a aria-current={segment === "pricing" ? "page" : undefined} href="pricing"><span>Pricing</span></a></li> -->
 		<li><a sveltekit:prefetch href="pricing"><span>Pricing</span></a></li>
+		<li><a sveltekit:prefetch href="tweetshot"><span>Tweetshot</span></a></li>
 		<li>
 			<label for="drop-1" class="toggle"><span>Products</span>{@html downChevronIcon} </label>
 			<a id="tablesLink"><span>Tables</span>{@html downChevronIcon}</a><input
