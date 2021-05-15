@@ -11,32 +11,24 @@
 	let name = '';
 
 	let updateName = async function () {
-		const authAPI = await fetch(
+		const response = await fetch(
 			'https://tweetdetails.catchspider2002.workers.dev/?id=1393287637147045898',
+			// 'https://misty-resonance-46ab.catchspider2002.workers.dev/?domain=pattern.monster',
 			{
 				method: 'GET',
 				// credentials: 'include',
-				mode: 'cors',
+				// mode: 'cors',
 				// credentials: 'no-cors',
-				// body: JSON.stringify({
-				// 	email: email.value,
-				// 	password: password.value,
-				// 	remember: remember.checked,
-				// 	authType: authType
-				// }),
 				headers: {
-					'Api-Key': 'mypresharedkey',
+					'API-KEY': 'mypresharedkey',
 					Accept: 'text/plain',
 					'Content-Type': 'text/plain'
-					// 'Content-Type': 'application/json'
+					// 	// 'Content-Type': 'application/json'
 				}
 			}
 		);
 
-		// console.log("data: " + JSON.stringify(data));
-		console.log('error: ' + JSON.stringify(await authAPI.json()));
-
-		// console.log("Name updated to " + name);
+		console.log('data: ' + JSON.stringify(await response.json()));
 	};
 </script>
 
