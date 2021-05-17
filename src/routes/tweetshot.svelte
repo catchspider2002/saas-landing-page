@@ -11,13 +11,14 @@
 	let theme = 'dim';
 	let fontSize = 19;
 	let colors = '253, 58, 74';
-	$: replies = false;
+
+	$: replies = true;
 	$: retweets = true;
 	$: quotes = true;
 	$: likes = true;
 
 	afterUpdate(async () => {
-		twemoji.parse(document.body);
+		// twemoji.parse(document.body);
 	});
 
 	$: tweetData = {
@@ -56,6 +57,9 @@
 		}
 	};
 
+	let tweetText = "Conflicted what to do next.\n\nI'll bring out another course or two but not sure whether to do a paid newsletter or a SaaS after that."
+	console.log(tweetText);
+
 	$: date = new Date(tweetData.data.created_at).toLocaleDateString('en-US', {
 		year: 'numeric',
 		month: 'short',
@@ -92,9 +96,24 @@
 
 		let tweetURLs;
 		if (tweetData.data.entities) {
-			tweetURLs = tweetData.data.text.match(/\bhttps?:\/\/\S+/gi);
+			tweetText = tweetData.data.text;
+			tweetURLs = tweetText.match(/\bhttps?:\/\/\S+/gi);
+			console.log(tweetText);
 			console.log(tweetURLs);
 			console.log(tweetData.data.entities.urls);
+
+			tweetData.data.entities.urls.forEach((element) => {
+				tweetText = tweetText.replace(
+					element.url,
+					"<a target='_blank' rel='noopener noreferrer' href='" +
+						element.expanded_url +
+						'>' +
+						element.display_url +
+						'</a>'
+				);
+			});
+			console.log(tweetText);
+			
 		}
 
 		console.log(JSON.stringify(tweetData));
@@ -198,27 +217,7 @@
 			<input type="radio" id="themeDark" name="theme" value="dark" bind:group={theme} />
 			<label class="disable-select" for="themeDark">Dark</label>
 		</div>
-		<div class="grayText self-start">Metrics</div>
-		<div class="radio-toolbar radio-temp">
-			<input type="radio" id="metricsIcons" name="metrics" value="icons" bind:group={metrics} />
-			<label class="disable-select" for="metricsIcons">Icons</label>
-			<input type="radio" id="metricsText" name="metrics" value="text" bind:group={metrics} />
-			<label class="disable-select" for="metricsText">Text</label>
-		</div>
-		<div class="grayText self-start">Metrics</div>
-		<div class="radio-toolbar radio-temp">
-			<input type="radio" id="metricsIcons" name="metrics" value="icons" bind:group={metrics} />
-			<label class="disable-select" for="metricsIcons">Icons</label>
-			<input type="radio" id="metricsText" name="metrics" value="text" bind:group={metrics} />
-			<label class="disable-select" for="metricsText">Text</label>
-		</div>
-		<div class="grayText self-start">Metrics</div>
-		<div class="radio-toolbar radio-temp">
-			<input type="radio" id="metricsIcons" name="metrics" value="icons" bind:group={metrics} />
-			<label class="disable-select" for="metricsIcons">Icons</label>
-			<input type="radio" id="metricsText" name="metrics" value="text" bind:group={metrics} />
-			<label class="disable-select" for="metricsText">Text</label>
-		</div>
+
 		<div class="grayText self-start">Metrics</div>
 		<div class="radio-toolbar radio-temp">
 			<input type="radio" id="metricsIcons" name="metrics" value="icons" bind:group={metrics} />
@@ -228,79 +227,47 @@
 		</div>
 
 		<div class="metricOptions">
-			<label class="hideCheckbox"> <input type="checkbox" bind:checked={replies} /> Replies </label>
-			<label class="hideCheckbox">
-				<input type="checkbox" bind:checked={retweets} /> Retweets
-			</label>
-			<label class="hideCheckbox">
-				<input type="checkbox" bind:checked={quotes} /> Quote Tweets
-			</label>
-			<label class="hideCheckbox"> <input type="checkbox" bind:checked={likes} /> Likes </label>
+			<input type="checkbox" id="metricsReplies" bind:checked={replies} />
+			<label class="disable-select" for="metricsReplies">Replies</label>
+
+			<input type="checkbox" id="metricsRetweets" bind:checked={retweets} />
+			<label class="disable-select" for="metricsRetweets">Retweets</label>
+
+			<input type="checkbox" id="metricsQuotes" bind:checked={quotes} />
+			<label class="disable-select" for="metricsQuotes">Quote Tweets</label>
+
+			<input type="checkbox" id="metricsLikes" bind:checked={likes} />
+			<label class="disable-select" for="metricsLikes">Likes</label>
 		</div>
 
 		<div class="grayText self-start">Color</div>
 		<div class="radio-toolbar radio-color">
+			<input type="radio" id="color1" name="tableColor" value="var(--color1)" bind:group={colors} />
+			<label id="color1Label" class="disable-select" title="Red" for="color1" />
+			<input type="radio" id="color2" name="tableColor" value="var(--color2)" bind:group={colors} />
+			<label id="color2Label" class="disable-select" title="Orange" for="color2" />
+			<input type="radio" id="color3" name="tableColor" value="var(--color3)" bind:group={colors} />
+			<label id="color3Label" class="disable-select" title="Yellow" for="color3" />
+			<input type="radio" id="color4" name="tableColor" value="var(--color4)" bind:group={colors} />
+			<label id="color4Label" class="disable-select" title="Brown" for="color4" />
+			<input type="radio" id="color5" name="tableColor" value="var(--color5)" bind:group={colors} />
+			<label id="color5Label" class="disable-select" title="Lime" for="color5" />
+			<input type="radio" id="color6" name="tableColor" value="var(--color6)" bind:group={colors} />
+			<label id="color6Label" class="disable-select" title="Green" for="color6" />
+			<input type="radio" id="color7" name="tableColor" value="var(--color7)" bind:group={colors} />
+			<label id="color7Label" class="disable-select" title="Cyan" for="color7" />
+			<input type="radio" id="color8" name="tableColor" value="var(--color8)" bind:group={colors} />
+			<label id="color8Label" class="disable-select" title="Blue" for="color8" />
+			<input type="radio" id="color9" name="tableColor" value="var(--color9)" bind:group={colors} />
+			<label id="color9Label" class="disable-select" title="Purple" for="color9" />
 			<input
-				type="radio"
-				id="color1"
-				name="tableColor"
-				value="var(--color1)"
-				bind:group={colors}
-			/><label id="color1Label" class="disable-select" title="Red" for="color1" /><input
-				type="radio"
-				id="color2"
-				name="tableColor"
-				value="var(--color2)"
-				bind:group={colors}
-			/><label id="color2Label" class="disable-select" title="Orange" for="color2" /><input
-				type="radio"
-				id="color3"
-				name="tableColor"
-				value="var(--color3)"
-				bind:group={colors}
-			/><label id="color3Label" class="disable-select" title="Yellow" for="color3" /><input
-				type="radio"
-				id="color4"
-				name="tableColor"
-				value="var(--color4)"
-				bind:group={colors}
-			/><label id="color4Label" class="disable-select" title="Brown" for="color4" /><input
-				type="radio"
-				id="color5"
-				name="tableColor"
-				value="var(--color5)"
-				bind:group={colors}
-			/><label id="color5Label" class="disable-select" title="Lime" for="color5" /><input
-				type="radio"
-				id="color6"
-				name="tableColor"
-				value="var(--color6)"
-				bind:group={colors}
-			/><label id="color6Label" class="disable-select" title="Green" for="color6" /><input
-				type="radio"
-				id="color7"
-				name="tableColor"
-				value="var(--color7)"
-				bind:group={colors}
-			/><label id="color7Label" class="disable-select" title="Cyan" for="color7" /><input
-				type="radio"
-				id="color8"
-				name="tableColor"
-				value="var(--color8)"
-				bind:group={colors}
-			/><label id="color8Label" class="disable-select" title="Blue" for="color8" /><input
-				type="radio"
-				id="color9"
-				name="tableColor"
-				value="var(--color9)"
-				bind:group={colors}
-			/><label id="color9Label" class="disable-select" title="Purple" for="color9" /><input
 				type="radio"
 				id="color10"
 				name="tableColor"
 				value="var(--color10)"
 				bind:group={colors}
-			/><label id="color10Label" class="disable-select" title="Pink" for="color10" />
+			/>
+			<label id="color10Label" class="disable-select" title="Pink" for="color10" />
 		</div>
 	</div>
 
@@ -308,7 +275,12 @@
 		<!-- {#await promise} -->
 		<div class="body">
 			<div data-twitTheme={theme} class="card" style="font-size:{fontSize}px">
-				<a class="header" href={'https://twitter.com/' + tweetData.includes.users[0].username}>
+				<a
+					target="_blank"
+					rel="noopener noreferrer"
+					class="header"
+					href={'https://twitter.com/' + tweetData.includes.users[0].username}
+				>
 					<img
 						alt=""
 						style="width:48px;height:48px;"
@@ -318,13 +290,13 @@
 						<div class="userGrid">
 							<span class="displayName">{tweetData.includes.users[0].name}</span>
 
-							{#if tweetData.includes.users[0].verified} @{@html verifiedIcon}{/if}
+							{#if tweetData.includes.users[0].verified} {@html verifiedIcon}{/if}
 						</div>
 						<div class="username">@{tweetData.includes.users[0].username}</div>
 					</div>
 				</a>
 				<div class="content">
-					{@html tweetData.data.text
+					{@html tweetText
 						.replace(/\n\n/g, '<br /><br />')
 						.replace(
 							/#(\w+)/g,
@@ -346,68 +318,70 @@
 					<div>·</div>
 					<div>{tweetData.data.source}</div>
 				</div>
-				{#if metrics == 'icons'}
-					<div class="metrics">
-						{#if replies}
-							<div class="iconGrid" title="Replies">
-								{@html replyIcon}
-								<div>{nFormatter(tweetData.data.public_metrics.reply_count)}</div>
-							</div>
-						{/if}
-						{#if retweets}
-							<div class="iconGrid" title="Retweets">
-								{@html retweetIcon}
-								<div>{nFormatter(tweetData.data.public_metrics.retweet_count)}</div>
-							</div>
-						{/if}
-						{#if quotes}
-							<div class="iconGrid" title="Quote Tweets">
-								{@html quoteTweetIcon}
-								<div>{nFormatter(tweetData.data.public_metrics.quote_count)}</div>
-							</div>
-						{/if}
-						{#if likes}
-							<div class="iconGrid" title="Likes">
-								{@html likeIcon}
-								<div>{nFormatter(tweetData.data.public_metrics.like_count)}</div>
-							</div>
-						{/if}
-					</div>
-				{:else}
-					<div class="metrics-alt">
-						{#if replies}
-							<div class="textGrid">
-								<div class="metrics-bold">
-									{nFormatter(tweetData.data.public_metrics.reply_count)}
+				{#if replies || retweets || quotes || likes}
+					{#if metrics == 'icons'}
+						<div class="metrics">
+							{#if replies}
+								<div class="iconGrid" title="Replies">
+									{@html replyIcon}
+									<div>{nFormatter(tweetData.data.public_metrics.reply_count)}</div>
 								</div>
-								Replies
-							</div>
-						{/if}
-						{#if retweets}
-							<div class="textGrid">
-								<div class="metrics-bold">
-									{nFormatter(tweetData.data.public_metrics.retweet_count)}
+							{/if}
+							{#if retweets}
+								<div class="iconGrid" title="Retweets">
+									{@html retweetIcon}
+									<div>{nFormatter(tweetData.data.public_metrics.retweet_count)}</div>
 								</div>
-								Retweets
-							</div>
-						{/if}
-						{#if quotes}
-							<div class="textGrid">
-								<div class="metrics-bold">
-									{nFormatter(tweetData.data.public_metrics.quote_count)}
+							{/if}
+							{#if quotes}
+								<div class="iconGrid" title="Quote Tweets">
+									{@html quoteTweetIcon}
+									<div>{nFormatter(tweetData.data.public_metrics.quote_count)}</div>
 								</div>
-								Quote Tweets
-							</div>
-						{/if}
-						{#if likes}
-							<div class="textGrid">
-								<div class="metrics-bold">
-									{nFormatter(tweetData.data.public_metrics.like_count)}
+							{/if}
+							{#if likes}
+								<div class="iconGrid" title="Likes">
+									{@html likeIcon}
+									<div>{nFormatter(tweetData.data.public_metrics.like_count)}</div>
 								</div>
-								Likes
-							</div>
-						{/if}
-					</div>
+							{/if}
+						</div>
+					{:else}
+						<div class="metrics-alt">
+							{#if replies}
+								<div class="textGrid">
+									<div class="metrics-bold">
+										{nFormatter(tweetData.data.public_metrics.reply_count)}
+									</div>
+									Replies
+								</div>
+							{/if}
+							{#if retweets}
+								<div class="textGrid">
+									<div class="metrics-bold">
+										{nFormatter(tweetData.data.public_metrics.retweet_count)}
+									</div>
+									Retweets
+								</div>
+							{/if}
+							{#if quotes}
+								<div class="textGrid">
+									<div class="metrics-bold">
+										{nFormatter(tweetData.data.public_metrics.quote_count)}
+									</div>
+									Quote Tweets
+								</div>
+							{/if}
+							{#if likes}
+								<div class="textGrid">
+									<div class="metrics-bold">
+										{nFormatter(tweetData.data.public_metrics.like_count)}
+									</div>
+									Likes
+								</div>
+							{/if}
+						</div>
+					{/if}
 				{/if}
 			</div>
 		</div>
@@ -465,7 +439,7 @@
 		color: var(--text-color);
 		display: grid;
 		grid-auto-flow: row;
-		gap: 1em;
+		gap: 2em;
 		margin-top: 6px;
 	}
 
@@ -546,7 +520,7 @@
 		display: grid;
 		grid-auto-flow: column;
 		place-content: start;
-		align-items: end;
+		align-items: center;
 	}
 	.iconGrid,
 	.userGrid {
@@ -595,13 +569,15 @@
 		place-content: start;
 	}
 
-	.radio-toolbar input[type='radio'] {
+	.radio-toolbar input[type='radio'],
+	.metricOptions input[type='checkbox'] {
 		opacity: 0;
 		position: fixed;
 		width: 0;
 	}
 
-	.radio-toolbar label {
+	.radio-toolbar label,
+	.metricOptions label {
 		display: inline-grid;
 		gap: 0.5em;
 		grid-auto-flow: column;
@@ -618,26 +594,31 @@
 		justify-self: start;
 	}
 
-	.radio-toolbar label::before {
+	.radio-toolbar label::before,
+	.metricOptions label::before {
 		content: var(--circle);
 		color: currentColor;
 	}
 
-	.radio-toolbar label:hover {
+	.radio-toolbar label:hover,
+	.metricOptions label:hover {
 		border-color: rgba(var(--blockquote-color), 0.7);
 		color: rgba(var(--blockquote-color), 0.7);
 	}
 
-	.radio-toolbar input[type='radio']:focus + label {
+	.radio-toolbar input[type='radio']:focus + label,
+	.metricOptions input[type='checkbox']:focus + label {
 		border-color: rgb(216, 216, 216);
 	}
 
-	.radio-toolbar input[type='radio']:checked + label {
+	.radio-toolbar input[type='radio']:checked + label,
+	.metricOptions input[type='checkbox']:checked + label {
 		color: rgb(255, 255, 255);
 		background-color: var(--accent-color);
 	}
 
-	.radio-toolbar input[type='radio']:checked + label::before {
+	.radio-toolbar input[type='radio']:checked + label::before,
+	.metricOptions input[type='checkbox']:checked + label::before {
 		content: var(--white-check);
 		color: var(--fg-color);
 	}
@@ -680,5 +661,9 @@
 
 	#color10Label {
 		background-color: rgb(var(--color10));
+	}
+	.disable-select {
+		-webkit-user-select: none;
+		user-select: none;
 	}
 </style>
