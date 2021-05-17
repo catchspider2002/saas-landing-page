@@ -10,7 +10,7 @@
 	// let toggleIcon =Constants.icons.toggleIcon
 	let theme = dark;
 	let defaultNewTheme;
-	
+
 	onMount(async () => {
 		defaultNewTheme = localStorage.getItem('defaultNewTheme');
 
@@ -127,8 +127,8 @@
 		grid-template-columns: auto 1fr auto auto auto;
 		letter-spacing: 0.5px;
 		align-items: center;
-		background-color: #d6ed17;
-		color: #2e2e2e;
+		background-color: var(--accent-color);
+		color: var(--accent-text-color);
 	}
 	nav h1 {
 		font-size: 1.2em;
@@ -198,8 +198,7 @@
 		/* float: none; */
 		display: list-item;
 		position: relative;
-		/* background-color: var(--darker-color-50); */
-		background-color: #d6ed17;
+		background-color: var(--accent-color);
 	}
 
 	nav ul ul ul li {

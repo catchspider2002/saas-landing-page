@@ -1,12 +1,30 @@
 :root {
   --main-bg-color: #1a202c;
   --unique-color: #d6ed17; /* Lime - To use in both light and dark modes */
+  /* pink-700 */
+  --accent-color: #be185d;
+  /* rose-600 */
+  --accent-color: #E11D48;
+  /* emerald-700 */
+  --accent-color: #047857;
+  /* violet-700 */
+  --accent-color: #6d28d9;
+  /* green-700 */
+  --accent-color: #15803d;
+  /* blue-700 */
+  --accent-color: #1d4ed8;
+  /* indigo-700 */
+  --accent-color: #4f46e5;
+  /* --accent-color-hover: #6d28d9bf; */
+
   --accent-color: #a8bb0e; /* Lime */
+  --accent-color: #E11D48; /*Rose */
   --secondary-color: #ffc800;
   --accent-text-color: #ffffff;
   --secondary-text-color: #000000;
   --unique-color-hover: #d6ed17bf;
   --accent-color-hover: #d6ed17bf;
+  --accent-color-hover: #E11D48bf;
   --border-radius: 4px;
   --white: #ffffff;
   --black: #000000;
@@ -48,6 +66,9 @@
 }
 [data-theme="dark"] {
   --accent-color: #d6ed17; /* Lime */
+  --accent-color: #E11D48; /*Rose */
+  --accent-text-color: #000000;
+  --accent-text-color: #fff;
 
   --card-bg: var(--gray-800);
   --body-bg: var(--gray-900);

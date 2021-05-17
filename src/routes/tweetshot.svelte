@@ -1,13 +1,24 @@
 <script>
 	import Constants from '$lib/_constants.js';
+	import { onMount, afterUpdate } from 'svelte';
 	let strings = Constants.strings;
 
 	let page = 'home';
 	let { title, url, keywords, desc, image } = Constants.pageDetails(page);
 
-	let name = '';
+	let status = '';
 	let metrics = 'icons';
 	let theme = 'dim';
+	let fontSize = 19;
+	let colors = '253, 58, 74';
+	$: replies = false;
+	$: retweets = true;
+	$: quotes = true;
+	$: likes = true;
+
+	afterUpdate(async () => {
+		twemoji.parse(document.body);
+	});
 
 	$: tweetData = {
 		data: {
@@ -57,7 +68,7 @@
 	});
 
 	let updateName = async function () {
-		let id = name
+		let id = status
 			.split('/')
 			.filter((x) => x != '')
 			.slice(-1)[0];
@@ -78,7 +89,19 @@
 		);
 
 		tweetData = await response.json();
+
+		let tweetURLs;
+		if (tweetData.data.entities) {
+			tweetURLs = tweetData.data.text.match(/\bhttps?:\/\/\S+/gi);
+			console.log(tweetURLs);
+			console.log(tweetData.data.entities.urls);
+		}
+
 		console.log(JSON.stringify(tweetData));
+		console.log('https://twitter.com/' + tweetData.includes.users[0].username);
+		console.log(
+			'https://twitter.com/' + tweetData.includes.users[0].username + '/status/' + tweetData.data.id
+		);
 	};
 
 	// let promise = updateName();
@@ -120,6 +143,8 @@
 </script>
 
 <svelte:head>
+	<script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+
 	<title>{title}</title>
 	<link rel="canonical" href={url} />
 	{#if Constants.strings.versions}
@@ -145,7 +170,7 @@
 	<meta name="twitter:image:alt" content={title} />
 </svelte:head>
 
-<div class="grid grid-cols-2 mt-16">
+<div class="grid grid-cols-2 gap-8 mt-16">
 	<div class="controls">
 		<input
 			class="rounded border focus:outline-none text-base px-4 py-2 mt-2 mb-6 w-full"
@@ -154,17 +179,17 @@
 			required="required"
 			autocorrect="off"
 			spellcheck="false"
-			bind:value={name}
+			bind:value={status}
 			on:change={updateName}
 		/>
 
-		<label class="leftColumn" for="stroke">Font-size</label>
+		<label class="leftColumn" for="fontSize">Font-size</label>
 		<div class="grid rightColumn">
-			<input id="stroke" type="range" min="14" max="18" step="1" />
+			<input id="fontSize" type="range" min="17" max="25" step="2" bind:value={fontSize} />
 			<!-- <input class="uneditable hidden" bind:value={selectedPattern.stroke} readonly /> -->
 		</div>
 
-		<div class="grayText self-start">Theme - {theme}</div>
+		<div class="grayText self-start">Theme</div>
 		<div class="radio-toolbar radio-temp">
 			<input type="radio" id="themeLight" name="theme" value="light" bind:group={theme} />
 			<label class="disable-select" for="themeLight">Light</label>
@@ -180,7 +205,38 @@
 			<input type="radio" id="metricsText" name="metrics" value="text" bind:group={metrics} />
 			<label class="disable-select" for="metricsText">Text</label>
 		</div>
-		Colors
+		<div class="grayText self-start">Metrics</div>
+		<div class="radio-toolbar radio-temp">
+			<input type="radio" id="metricsIcons" name="metrics" value="icons" bind:group={metrics} />
+			<label class="disable-select" for="metricsIcons">Icons</label>
+			<input type="radio" id="metricsText" name="metrics" value="text" bind:group={metrics} />
+			<label class="disable-select" for="metricsText">Text</label>
+		</div>
+		<div class="grayText self-start">Metrics</div>
+		<div class="radio-toolbar radio-temp">
+			<input type="radio" id="metricsIcons" name="metrics" value="icons" bind:group={metrics} />
+			<label class="disable-select" for="metricsIcons">Icons</label>
+			<input type="radio" id="metricsText" name="metrics" value="text" bind:group={metrics} />
+			<label class="disable-select" for="metricsText">Text</label>
+		</div>
+		<div class="grayText self-start">Metrics</div>
+		<div class="radio-toolbar radio-temp">
+			<input type="radio" id="metricsIcons" name="metrics" value="icons" bind:group={metrics} />
+			<label class="disable-select" for="metricsIcons">Icons</label>
+			<input type="radio" id="metricsText" name="metrics" value="text" bind:group={metrics} />
+			<label class="disable-select" for="metricsText">Text</label>
+		</div>
+
+		<div class="metricOptions">
+			<label class="hideCheckbox"> <input type="checkbox" bind:checked={replies} /> Replies </label>
+			<label class="hideCheckbox">
+				<input type="checkbox" bind:checked={retweets} /> Retweets
+			</label>
+			<label class="hideCheckbox">
+				<input type="checkbox" bind:checked={quotes} /> Quote Tweets
+			</label>
+			<label class="hideCheckbox"> <input type="checkbox" bind:checked={likes} /> Likes </label>
+		</div>
 
 		<div class="grayText self-start">Color</div>
 		<div class="radio-toolbar radio-color">
@@ -188,154 +244,177 @@
 				type="radio"
 				id="color1"
 				name="tableColor"
-				value="253, 58, 74"
-				onchange="setColorSettings()"
+				value="var(--color1)"
+				bind:group={colors}
 			/><label id="color1Label" class="disable-select" title="Red" for="color1" /><input
 				type="radio"
 				id="color2"
 				name="tableColor"
-				value="245, 128, 37"
-				onchange="setColorSettings()"
+				value="var(--color2)"
+				bind:group={colors}
 			/><label id="color2Label" class="disable-select" title="Orange" for="color2" /><input
 				type="radio"
 				id="color3"
 				name="tableColor"
-				value="255, 167, 0"
-				onchange="setColorSettings()"
+				value="var(--color3)"
+				bind:group={colors}
 			/><label id="color3Label" class="disable-select" title="Yellow" for="color3" /><input
 				type="radio"
 				id="color4"
 				name="tableColor"
-				value="123, 113, 81"
-				onchange="setColorSettings()"
+				value="var(--color4)"
+				bind:group={colors}
 			/><label id="color4Label" class="disable-select" title="Brown" for="color4" /><input
 				type="radio"
 				id="color5"
 				name="tableColor"
-				value="91, 170, 9"
-				onchange="setColorSettings()"
+				value="var(--color5)"
+				bind:group={colors}
 			/><label id="color5Label" class="disable-select" title="Lime" for="color5" /><input
 				type="radio"
 				id="color6"
 				name="tableColor"
-				value="26, 152, 90"
-				onchange="setColorSettings()"
+				value="var(--color6)"
+				bind:group={colors}
 			/><label id="color6Label" class="disable-select" title="Green" for="color6" /><input
 				type="radio"
 				id="color7"
 				name="tableColor"
-				value="59, 168, 221"
-				onchange="setColorSettings()"
+				value="var(--color7)"
+				bind:group={colors}
 			/><label id="color7Label" class="disable-select" title="Cyan" for="color7" /><input
 				type="radio"
 				id="color8"
 				name="tableColor"
-				value="0, 120, 215"
-				onchange="setColorSettings()"
+				value="var(--color8)"
+				bind:group={colors}
 			/><label id="color8Label" class="disable-select" title="Blue" for="color8" /><input
 				type="radio"
 				id="color9"
 				name="tableColor"
-				value="139, 102, 204"
-				onchange="setColorSettings()"
+				value="var(--color9)"
+				bind:group={colors}
 			/><label id="color9Label" class="disable-select" title="Purple" for="color9" /><input
 				type="radio"
 				id="color10"
 				name="tableColor"
-				value="228, 27, 144"
-				onchange="setColorSettings()"
+				value="var(--color10)"
+				bind:group={colors}
 			/><label id="color10Label" class="disable-select" title="Pink" for="color10" />
 		</div>
 	</div>
 
-	<div class="preview sticky top-32">
+	<div class="preview sticky top-32" style="--colors: {colors};">
 		<!-- {#await promise} -->
 		<div class="body">
-			<div data-twitTheme={theme} class="card">
-				<div class="header">
+			<div data-twitTheme={theme} class="card" style="font-size:{fontSize}px">
+				<a class="header" href={'https://twitter.com/' + tweetData.includes.users[0].username}>
 					<img
 						alt=""
 						style="width:48px;height:48px;"
 						src={tweetData.includes.users[0].profile_image_url.replace('normal', '400x400')}
 					/>
 					<div class="header-text">
-						<div class="iconGrid">
-							{tweetData.includes.users[0].name}
+						<div class="userGrid">
+							<span class="displayName">{tweetData.includes.users[0].name}</span>
 
 							{#if tweetData.includes.users[0].verified} @{@html verifiedIcon}{/if}
 						</div>
 						<div class="username">@{tweetData.includes.users[0].username}</div>
 					</div>
+				</a>
+				<div class="content">
+					{@html tweetData.data.text
+						.replace(/\n\n/g, '<br /><br />')
+						.replace(
+							/#(\w+)/g,
+							'<a target="_blank" rel="noopener noreferrer" class="link" href="https://twitter.com/hashtag/$1">#$1</a>'
+						)
+						.replace(
+							/@(\w+)/g,
+							'<a target="_blank" rel="noopener noreferrer" class="link" href="https://twitter.com/$1">@$1</a>'
+						)}
 				</div>
-				<div class="content">{@html tweetData.data.text.replace(/\n\n/g, '<br /><br />')}</div>
 				<div class="details">
 					<div>{time}</div>
 					<div>·</div>
 					<div>{date}</div>
+					{#if tweetData.includes.places}
+						<div>·</div>
+						<div>{tweetData.includes.places[0].full_name}</div>
+					{/if}
 					<div>·</div>
 					<div>{tweetData.data.source}</div>
 				</div>
 				{#if metrics == 'icons'}
 					<div class="metrics">
-						<div class="iconGrid" title="Replies">
-							{@html replyIcon}
-							<div>{nFormatter(tweetData.data.public_metrics.reply_count)}</div>
-						</div>
-						<div class="iconGrid" title="Retweets">
-							{@html retweetIcon}
-							<div>{nFormatter(tweetData.data.public_metrics.retweet_count)}</div>
-						</div>
-						<div class="iconGrid" title="Quote Tweets">
-							{@html quoteTweetIcon}
-							<div>{nFormatter(tweetData.data.public_metrics.quote_count)}</div>
-						</div>
-						<div class="iconGrid" title="Likes">
-							{@html likeIcon}
-							<div>{nFormatter(tweetData.data.public_metrics.like_count)}</div>
-						</div>
+						{#if replies}
+							<div class="iconGrid" title="Replies">
+								{@html replyIcon}
+								<div>{nFormatter(tweetData.data.public_metrics.reply_count)}</div>
+							</div>
+						{/if}
+						{#if retweets}
+							<div class="iconGrid" title="Retweets">
+								{@html retweetIcon}
+								<div>{nFormatter(tweetData.data.public_metrics.retweet_count)}</div>
+							</div>
+						{/if}
+						{#if quotes}
+							<div class="iconGrid" title="Quote Tweets">
+								{@html quoteTweetIcon}
+								<div>{nFormatter(tweetData.data.public_metrics.quote_count)}</div>
+							</div>
+						{/if}
+						{#if likes}
+							<div class="iconGrid" title="Likes">
+								{@html likeIcon}
+								<div>{nFormatter(tweetData.data.public_metrics.like_count)}</div>
+							</div>
+						{/if}
 					</div>
 				{:else}
 					<div class="metrics-alt">
-						<div class="textGrid">
-							<div class="metrics-bold">
-								{nFormatter(tweetData.data.public_metrics.reply_count)}
+						{#if replies}
+							<div class="textGrid">
+								<div class="metrics-bold">
+									{nFormatter(tweetData.data.public_metrics.reply_count)}
+								</div>
+								Replies
 							</div>
-							Replies
-						</div>
-						<div class="textGrid">
-							<div class="metrics-bold">
-								{nFormatter(tweetData.data.public_metrics.retweet_count)}
+						{/if}
+						{#if retweets}
+							<div class="textGrid">
+								<div class="metrics-bold">
+									{nFormatter(tweetData.data.public_metrics.retweet_count)}
+								</div>
+								Retweets
 							</div>
-							Retweets
-						</div>
-						<div class="textGrid">
-							<div class="metrics-bold">
-								{nFormatter(tweetData.data.public_metrics.quote_count)}
+						{/if}
+						{#if quotes}
+							<div class="textGrid">
+								<div class="metrics-bold">
+									{nFormatter(tweetData.data.public_metrics.quote_count)}
+								</div>
+								Quote Tweets
 							</div>
-							Quote Tweets
-						</div>
-						<div class="textGrid">
-							<div class="metrics-bold">{nFormatter(tweetData.data.public_metrics.like_count)}</div>
-							Likes
-						</div>
+						{/if}
+						{#if likes}
+							<div class="textGrid">
+								<div class="metrics-bold">
+									{nFormatter(tweetData.data.public_metrics.like_count)}
+								</div>
+								Likes
+							</div>
+						{/if}
 					</div>
 				{/if}
 			</div>
 		</div>
 	</div>
-
-	<p>Some example text..</p>
-	<h2>Scroll back up again to "remove" the sticky position.</h2>
 </div>
 
 <style style lang="postcss">
-	.preview {
-		/* height: 400px; */
-	}
-	.controls {
-		color: var(--text-color);
-	}
-
 	:root {
 		--text-color: rgb(219, 216, 212);
 		--alt-color: rgb(162, 154, 142);
@@ -353,6 +432,7 @@
 		--color10: 228, 27, 144; /* Pink */
 		--blockquote-color: 103, 106, 109;
 		--circle: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" transform="translate(0,7)" viewBox="0 0 24 31" stroke-width="2" stroke="rgba(103, 106, 109, 0.5)" fill="none" stroke-linecap="round" stroke-linejoin="round"%3E%3Ccircle cx="12" cy="12" r="9" /%3E%3C/svg%3E');
+		--white-check: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" transform="translate(0,7)" viewBox="0 0 24 31" stroke-width="2" stroke="rgb(234, 234, 234)" fill="none" stroke-linecap="round" stroke-linejoin="round"%3E%3Ccircle cx="12" cy="12" r="9" /%3E%3Cpath d="M9 12l2 2l4 -4" /%3E%3C/svg%3E');
 	}
 
 	:global([data-theme='dark']) {
@@ -361,17 +441,36 @@
 	}
 
 	[data-twitTheme='light'] {
-		--card-background: white;
+		--card-background: rgb(255, 255, 255);
+		--card-text: rgb(15, 20, 25);
+		--card-gray: rgb(91, 112, 131);
+		--card-divider: rgb(213, 220, 230);
+		--card-verified: rgb(29, 161, 242);
 	}
 	[data-twitTheme='dim'] {
 		--card-background: rgb(21, 32, 43);
+		--card-text: rgb(255, 255, 255);
+		--card-gray: rgb(136, 153, 166);
+		--card-divider: rgb(56, 68, 77);
+		--card-verified: rgb(255, 255, 255);
 	}
 	[data-twitTheme='dark'] {
-		--card-background: black;
+		--card-background: rgb(0, 0, 0);
+		--card-text: rgb(217, 217, 217);
+		--card-gray: rgb(110, 118, 125);
+		--card-divider: rgb(47, 51, 54);
+		--card-verified: rgb(217, 217, 217);
 	}
+	.controls {
+		color: var(--text-color);
+		display: grid;
+		grid-auto-flow: row;
+		gap: 1em;
+		margin-top: 6px;
+	}
+
 	.preview {
 		background-color: var(--card-bg);
-		color: var(--text-color);
 		font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
 			'Apple Color Emoji', 'Segoe UI Emoji';
 		width: 580px;
@@ -386,6 +485,7 @@
 	.card {
 		padding: 10px 15px 5px;
 		background-color: var(--card-background);
+		color: var(--card-text);
 	}
 	.header {
 		display: grid;
@@ -400,16 +500,25 @@
 	.header-text {
 		display: grid;
 		grid-auto-flow: row;
-		font-size: 15px;
 		font-weight: 700;
 	}
+	.userGrid {
+		font-size: 0.79em;
+	}
+	.displayName {
+		display: flex;
+	}
+	.displayName:hover {
+		color: var(--card-text);
+		text-decoration: underline;
+	}
 	.username {
-		font-size: 14px;
+		font-size: 0.737em;
 		font-weight: 400;
-		color: var(--alt-color);
+		color: var(--card-gray);
 	}
 	.content {
-		font-size: 19px;
+		font-size: 1em;
 	}
 	.details {
 		display: grid;
@@ -417,28 +526,30 @@
 		place-content: start;
 		gap: 4px;
 		padding: 15px 0;
-		font-size: 16px;
-		color: var(--alt-color);
+		font-size: 0.842em;
+		color: var(--card-gray);
 	}
 	.metrics,
 	.metrics-alt {
 		display: grid;
 		grid-auto-flow: column;
 		place-content: start;
-		gap: 32px;
-		border-top: 1px solid var(--border-color);
+		gap: 2.133em;
+		border-top: 1px solid var(--card-divider);
 		padding: 10px 0;
-		font-size: 15px;
-		color: var(--alt-color);
+		font-size: 0.79em;
+		color: var(--card-gray);
 	}
 	.iconGrid,
-	.textGrid {
+	.textGrid,
+	.userGrid {
 		display: grid;
 		grid-auto-flow: column;
 		place-content: start;
 		align-items: end;
 	}
-	.iconGrid {
+	.iconGrid,
+	.userGrid {
 		gap: 8px;
 	}
 	.textGrid {
@@ -448,30 +559,40 @@
 	:global(.tweeticon) {
 		fill: currentColor;
 		stroke: none;
-		height: 20px;
+		height: 1.32em;
 	}
 	:global(.verifiedIcon) {
-		fill: currentColor;
-		height: 20px;
+		fill: var(--card-verified);
+		height: 1.32em;
 	}
 	.metrics-bold {
 		font-weight: 700;
-		color: var(--text-color);
+		color: var(--card-text);
 	}
-	img.emoji {
+	:global(img.emoji) {
 		height: 27.6px;
 		width: 27.6px;
 		margin: 0 0.1em;
 		vertical-align: -0.2em;
 	}
+	:global(.link) {
+		color: rgb(var(--colors));
+	}
+	:global(.link:hover) {
+		color: rgb(var(--colors));
+		text-decoration: underline;
+	}
+	.metricOptions {
+		display: grid;
+		grid-auto-flow: column;
+		gap: 1em;
+	}
 
 	.radio-toolbar {
 		display: grid;
 		gap: 0.5em;
-		grid-template-columns: repeat(3, auto);
-		/* grid-auto-flow: column; */
-		/* margin: 0 1rem;
-  color: pink;*/
+		grid-template-columns: repeat(5, auto);
+		place-content: start;
 	}
 
 	.radio-toolbar input[type='radio'] {
@@ -513,7 +634,7 @@
 
 	.radio-toolbar input[type='radio']:checked + label {
 		color: rgb(255, 255, 255);
-		background-color: var(--darker-color-50);
+		background-color: var(--accent-color);
 	}
 
 	.radio-toolbar input[type='radio']:checked + label::before {
